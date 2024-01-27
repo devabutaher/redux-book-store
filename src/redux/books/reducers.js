@@ -29,15 +29,16 @@ export const bookReducer = (state = [], action) => {
 
     case UPDATEBOOK:
       const { id, book } = action.payload;
-      const existBook = state.find((book) => book.id === id);
+      return state.map((existingBook) => {
+        if (existingBook.id === id) {
+          return {
+            ...existingBook,
+            ...book,
+          };
+        }
 
-      return [
-        ...state,
-        {
-          ...existBook,
-          ...book,
-        },
-      ];
+        return existingBook;
+      });
 
     case DELETEBOOK:
       return state.filter((book) => book.id !== action.payload);

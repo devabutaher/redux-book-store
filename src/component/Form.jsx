@@ -1,9 +1,10 @@
 "use client";
 
 import addNewBook from "@/redux/books/thunk/addNewBook";
+import updatedBook from "@/redux/books/thunk/updatedBook";
 import { useDispatch } from "react-redux";
 
-const Form = () => {
+const Form = ({ editBook, setEditBook }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -19,7 +20,12 @@ const Form = () => {
       featured: form.featured.checked,
     };
 
-    dispatch(addNewBook(data));
+    if (editBook !== null) {
+      dispatch(updatedBook(editBook.id, data));
+      setEditBook(null);
+    } else {
+      dispatch(addNewBook(data));
+    }
 
     form.reset();
   };
@@ -32,6 +38,7 @@ const Form = () => {
           <label htmlFor="name">Book Name</label>
           <input
             required
+            defaultValue={editBook?.name ?? ""}
             className="text-input"
             type="text"
             id="input-Bookname"
@@ -43,6 +50,7 @@ const Form = () => {
           <label htmlFor="category">Author</label>
           <input
             required
+            defaultValue={editBook?.author ?? ""}
             className="text-input"
             type="text"
             id="input-Bookauthor"
@@ -54,6 +62,7 @@ const Form = () => {
           <label htmlFor="image">Image Url</label>
           <input
             required
+            defaultValue={editBook?.thumbnail ?? ""}
             className="text-input"
             type="text"
             id="input-Bookthumbnail"
@@ -66,6 +75,7 @@ const Form = () => {
             <label htmlFor="price">Price</label>
             <input
               required
+              defaultValue={editBook?.price ?? ""}
               className="text-input"
               type="number"
               id="input-Bookprice"
@@ -77,6 +87,7 @@ const Form = () => {
             <label htmlFor="quantity">Rating</label>
             <input
               required
+              defaultValue={editBook?.rating ?? ""}
               className="text-input"
               type="number"
               id="input-Bookrating"
@@ -89,6 +100,7 @@ const Form = () => {
 
         <div className="flex items-center">
           <input
+            defaultChecked={editBook?.featured ?? ""}
             id="input-Bookfeatured"
             type="checkbox"
             name="featured"
@@ -100,7 +112,7 @@ const Form = () => {
         </div>
 
         <button type="submit" className="submit" id="submit">
-          Add Book
+          {editBook !== null ? "Update Book" : "Add Book"}
         </button>
       </form>
     </div>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const Card = () => {
+const Card = ({ setEditBook }) => {
   const books = useSelector((state) => state.books);
   const dispatch = useDispatch();
 
@@ -16,6 +16,10 @@ const Card = () => {
 
   const handleDelete = (id) => {
     dispatch(deletedBook(id));
+  };
+
+  const handleUpdate = (data) => {
+    setEditBook(data);
   };
 
   return (
@@ -54,7 +58,10 @@ const Card = () => {
                   featured
                 </span>
                 <div className="space-x-2 text-gray-500">
-                  <button className="lws-edit">
+                  <button
+                    className="lws-edit"
+                    onClick={() => handleUpdate(book)}
+                  >
                     <svg
                       fill="none"
                       viewBox="0 0 24 24"
