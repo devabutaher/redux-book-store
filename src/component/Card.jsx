@@ -1,5 +1,6 @@
 "use client";
 
+import deletedBook from "@/redux/books/thunk/deleteBook";
 import { fetchBooks } from "@/redux/books/thunk/fetchBooks";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -12,6 +13,10 @@ const Card = () => {
   useEffect(() => {
     dispatch(fetchBooks);
   }, [dispatch]);
+
+  const handleDelete = (id) => {
+    dispatch(deletedBook(id));
+  };
 
   return (
     <div className="order-2 xl:-order-1">
@@ -64,7 +69,10 @@ const Card = () => {
                       />
                     </svg>
                   </button>
-                  <button className="lws-delete">
+                  <button
+                    className="lws-delete"
+                    onClick={() => handleDelete(book.id)}
+                  >
                     <svg
                       fill="none"
                       viewBox="0 0 24 24"

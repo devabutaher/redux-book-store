@@ -1,8 +1,33 @@
+"use client";
+
+import addNewBook from "@/redux/books/thunk/addNewBook";
+import { useDispatch } from "react-redux";
+
 const Form = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      name: form.name.value,
+      author: form.author.value,
+      price: form.price.value,
+      rating: form.rating.value,
+      thumbnail: form.thumbnail.value,
+      featured: form.featured.checked,
+    };
+
+    dispatch(addNewBook(data));
+
+    form.reset();
+  };
+
   return (
     <div className="p-4 overflow-hidden bg-white rounded-md shadow-cardShadow">
       <h4 className="mb-8 text-xl font-bold text-center">Add New Book</h4>
-      <form className="book-form">
+      <form className="book-form" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <label htmlFor="name">Book Name</label>
           <input
@@ -69,7 +94,7 @@ const Form = () => {
             name="featured"
             className="w-4 h-4"
           />
-          <label htmlFor="featured" className="ml-2 text-sm">
+          <label htmlFor="input-Bookfeatured" className="ml-2 text-sm">
             This is a featured book
           </label>
         </div>
