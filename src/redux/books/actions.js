@@ -1,4 +1,10 @@
-import { ADDBOOK, DELETEBOOK, LOADBOOK, UPDATEBOOK } from "./actionTypes";
+import {
+  ADDBOOK,
+  DELETEBOOK,
+  LOADBOOK,
+  SEARCHBOOK,
+  UPDATEBOOK,
+} from "./actionTypes";
 
 export const loadBooks = (books) => {
   return {
@@ -25,5 +31,12 @@ export const deleteBook = (id) => {
   return {
     type: DELETEBOOK,
     payload: id,
+  };
+};
+
+export const searchBook = (text) => {
+  return {
+    type: SEARCHBOOK,
+    payload: text,
   };
 };

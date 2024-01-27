@@ -1,4 +1,11 @@
+"use client";
+
+import { searchBook } from "@/redux/books/actions";
+import { useDispatch } from "react-redux";
+
 const Navbar = () => {
+  const dispatch = useDispatch();
+
   return (
     <nav className="py-4 2xl:px-6">
       <div className="container flex items-center justify-between">
@@ -31,6 +38,7 @@ const Navbar = () => {
               placeholder="Filter books..."
               className="search"
               id="lws-searchBook"
+              onChange={(e) => dispatch(searchBook(e.target.value))}
             />
           </div>
         </form>

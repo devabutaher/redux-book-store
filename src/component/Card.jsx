@@ -3,12 +3,21 @@
 import deletedBook from "@/redux/books/thunk/deleteBook";
 import { fetchBooks } from "@/redux/books/thunk/fetchBooks";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Card = ({ setEditBook }) => {
-  const books = useSelector((state) => state.books);
+  const [isFeatured, setIsFeatured] = useState(false);
   const dispatch = useDispatch();
+  const books = useSelector((state) => state.books.data);
+  const search = useSelector((state) => state.books.search);
+
+  const filteredBooks = books.filter((book) => {
+    return (
+      (isFeatured ? book.featured : true) &&
+      book.name.toLowerCase().includes(search.toLowerCase())
+    );
+  });
 
   useEffect(() => {
     dispatch(fetchBooks);
@@ -28,17 +37,25 @@ const Card = ({ setEditBook }) => {
         <h4 className="mt-2 text-xl font-bold">Book List</h4>
 
         <div className="flex items-center space-x-4">
-          <button className="filter-btn active-filter" id="lws-filterAll">
+          <button
+            onClick={() => setIsFeatured(false)}
+            className={`filter-btn ${!isFeatured && "active-filter"} `}
+            id="lws-filterAll"
+          >
             All
           </button>
-          <button className="filter-btn" id="lws-filterFeatured">
+          <button
+            onClick={() => setIsFeatured(true)}
+            className={`filter-btn ${isFeatured && "active-filter"} `}
+            id="lws-filterFeatured"
+          >
             Featured
           </button>
         </div>
       </div>
       <div className="lws-bookContainer">
         {/* <!-- Card 1 --> */}
-        {books?.map((book, i) => (
+        {filteredBooks.map((book, i) => (
           <div key={i} className="book-card">
             <Image
               className="h-[240px] w-[170px] object-cover lws-bookThumbnail"
